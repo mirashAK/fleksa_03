@@ -4,3 +4,5 @@
 .keepme
 /_backup
 nbproject/*
+application/logs
+application/logs/last_result.php

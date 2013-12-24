@@ -11,12 +11,12 @@ class Flx_Model extends CI_Model
       parent::__construct();
       
       $this->config->load('flx_db_errors');
-      $this->lang->load('db_errors', $this->config->item('language'));
   }
   
   public function check_error ($q_result, $method_name)
   {
     if (empty($q_result)) return false; // Get out if input is empty
+    if (is_array($q_result)) return true; // Get out, because in input not error
     if (empty($method_name)) $method_name = 'flx_db_common';
     
     $errors_arr = $this->config->item($method_name);
@@ -30,6 +30,7 @@ class Flx_Model extends CI_Model
     if (empty($err_code)) return false; // Get out if input is empty
     if (empty($method_name)) $method_name = 'flx_db_common';
     
+    $this->lang->load('db_errors', lang());
     $errors_arr = $this->config->item($method_name);
     if (array_key_exists($err_code, $errors_arr)) return $this->lang->line($errors_arr[$err_code]);
     
@@ -39,10 +40,11 @@ class Flx_Model extends CI_Model
   private function get_table (&$user, $table, $where = '', $order = '', $limit = '')
   {
     $sql = 'CALL get_table(?,?,?,?,?,?)';
-
-    //var_export(array($user->user_token, $user->user_ip, $table, $where, $order, $limit)); echo('<br/>');
     
-    return $this->db->query($sql, array($user->user_token, $user->user_ip, $table, $where, $order, $limit));
+    $result = $this->db->query($sql, array($user->user_token, $user->user_ip, $table, $where, $order, $limit));
+    //echo($this->db->last_query());
+    return $result;
+    
     
 //     $result = $this->db->query($sql, array($user->user_token, $user->user_ip, $table, $where, $order, $limit));
 //     var_export($result->row_array());echo('<br/>');
@@ -98,8 +100,11 @@ class Flx_Model extends CI_Model
             else $final_result['value'][$key] = $value;
           }
         }
-        else $final_result['value'] = array();         
-
+        else 
+        {
+          foreach ($first_result as $key=>$value) $final_result['value'][$key] = '';
+          $final_result['is_new'] = true;
+        }
         // Поищем справочники (dicts) прицепленные к полям таблицы
         while($this->db->conn_id->next_result())
         {
@@ -127,13 +132,6 @@ class Flx_Model extends CI_Model
           unset($dicts_result);
         }
       }
-      //  Если второго результата нет, то сходим за сигнатурой
-      else
-      {  
-        $this->_clear_results();
-        return $this->get_table_signature($user, $table);
-      }
-    
       $this->_clear_results();
       return $final_result;
     }
@@ -233,7 +231,6 @@ class Flx_Model extends CI_Model
           unset($dicts_result);
         }
       }
-      
       $this->_clear_results();
       return $final_result;
     }
@@ -292,7 +289,12 @@ class Flx_Model extends CI_Model
           }
           $final_result['value'] = (object)$final_result['value'];
         }
-        else $final_result['value'] = false; 
+        else        
+        {
+          foreach ($first_result as $key=>$value) $final_result['value'][$key] = '';
+          $final_result['value'] = (object)$final_result['value'];
+          $final_result['is_new'] = true;
+        }
 
         // Поищем справочники (dicts) прицепленные к полям таблицы
         while($this->db->conn_id->next_result())
@@ -323,15 +325,9 @@ class Flx_Model extends CI_Model
           unset($dicts_result);
         }
       }
-      //  Если второго результата нет, то сходим за сигнатурой
-      else
-      {  
-        $this->_clear_results();
-        return $this->get_table_signature($user, $table);
-      }
-      
       $this->_clear_results();
       if (array_key_exists('dict', $final_result)) $final_result['dict'] = (object)$final_result['dict'];
+      return (object)$final_result;
     }
     $this->_clear_results();
     return false;
@@ -517,7 +513,6 @@ class Flx_Model extends CI_Model
       
       $this->_clear_results();
       $final_result['is_new'] = true;
-      //var_export($final_result);
       return $final_result;
     }
      

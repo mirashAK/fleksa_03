@@ -5,30 +5,27 @@ class Flx_User_Lib
   public $user_token = null;
   public $user_ip = null;
   public $user_last_activity = null;
-  public $error_code = false;
-  public $error = false;
   
   public function __construct()
   {
     $this->load->model('core/flx_session_mdl', 'user_session');
     $this->load->model('core/flx_user_mdl', 'flx_user_mdl');
-    $this->load->library('encrypt');
     $this->_set_values();
+     var_export($this->flx_user_mdl->get_public_users_table($this));
   }
   
   public function do_auth ($email, $pass)
   {
     $pass = $this->_encrypt_pass($pass);
-    
     $new_token = $this->flx_user_mdl->do_auth($this, $email, $pass);
     if ($this->flx_user_mdl->check_error($new_token, 'flx_do_auth') == true)
     {
       $this->user_session->sess_token = $new_token;
       $this->input->set_cookie('user_token', $new_token, 31536000);
       $this->_set_values();
-      return true;
+      return new Safe_Class(array('has_error'=>false));
     }
-    else return $this->flx_user_mdl->get_error_text($new_token, 'flx_do_auth');
+    else return new Safe_Class(array('has_error'=>true, 'error_code'=>$new_token, 'error_text'=>$this->flx_user_mdl->get_error_text($new_token, 'flx_do_auth')));
   }
   
   public function add_user ($email, $pass, $login = '', $user_data = array())
@@ -36,30 +33,30 @@ class Flx_User_Lib
     $pass = $this->_encrypt_pass($pass);
     $user_data = $this->encrypt->encode(json_encode($user_data));
     $token = $this->flx_user_mdl->add_user($email, $pass, $login, $user_data);
-    if ($this->flx_user_mdl->check_error($token, 'flx_add_user') == true)
-    {
-      return $token;
-    }
-    else return $this->flx_user_mdl->get_error_text($token, 'flx_add_user');
+    if ($this->flx_user_mdl->check_error($token, 'flx_add_user') == true) return new Safe_Class(array('has_error'=>false, 'token'=>$token));
+    else return new Safe_Class(array('has_error'=>true, 'error_code'=>$token, 'error_text'=>$this->flx_user_mdl->get_error_text($token, 'flx_add_user')));
   }
   
-  public function reg_user ()
+  public function reg_user ($token)
   {
-    $token = $this->input->get('token');
     if (!empty($token))
     {
       $result = $this->flx_user_mdl->reg_user($this, $token);
-      
-      if (!is_array($result) && $this->flx_user_mdl->check_error($result, 'flx_reg_user') == false)
-        $this->flx_user_mdl->get_error_text($new_token, 'flx_reg_user');
-      else 
+      if ($this->flx_user_mdl->check_error($result, 'flx_reg_user') == true)
       {
         $this->user_session->sess_token = $result['user_token'];
         $this->input->set_cookie('user_token', $result['user_token'], 31536000);
         $this->_set_values();
         
-        return json_decode($this->encrypt->decode($result['user_data']),true);
+        $public_user_table = Form_Builder::factory('public_user_table');
+        $public_user_table->form_data = $this->flx_user_mdl->get_public_users_table($this);
+        $public_user_table->u_f_user_id = $this->user_id;
+        $this->flx_user_mdl->save_table($this, 'public_users', $public_user_table);
+        $this->user_public = new Safe_Class($this->flx_user_mdl->get_public_user_data($this));
+        
+        return new Safe_Class(array('has_error'=>false, 'user_data'=>json_decode($this->encrypt->decode($result['user_data']),true)));
       }
+      else return new Safe_Class(array('has_error'=>true, 'error_code'=>$result, 'error_text'=>$this->flx_user_mdl->get_error_text($result, 'flx_reg_user')));
     }
     else return false;
   }
@@ -79,12 +76,12 @@ class Flx_User_Lib
   
   public function token_passwd ($email)
   {
-    $get_params = $this->flx_user_mdl->token_passwd($email);
-    if ($this->flx_user_mdl->check_error($get_params, 'flx_token_passwd') == true)
+    $new_token = $this->flx_user_mdl->token_passwd($email);
+    if ($this->flx_user_mdl->check_error($new_token, 'flx_token_passwd') == true)
     {
-      return $get_params;
+      return $new_token;
     }
-    else $this->flx_user_mdl->get_error_text($get_params, 'flx_token_passwd');
+    else return new Safe_Class(array('has_error'=>true, 'error_code'=>$new_token, 'error_text'=>$this->flx_user_mdl->get_error_text($new_token, 'flx_token_passwd')));
   }
   
   public function reset_passwd ($token, $new_passwd)
@@ -100,7 +97,7 @@ class Flx_User_Lib
         $this->_set_values();
         return true;
       }
-      else $this->flx_user_mdl->get_error_text($new_token, 'flx_reset_passwd');
+      else return new Safe_Class(array('has_error'=>true, 'error_code'=>$new_token, 'error_text'=>$this->flx_user_mdl->get_error_text($new_token, 'flx_reset_passwd')));
     }
     else return false;
   }

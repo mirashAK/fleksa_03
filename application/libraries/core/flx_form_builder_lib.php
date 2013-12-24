@@ -8,6 +8,7 @@ class Form_Builder
   
   public $xhr_answer = null;
   public $errors = array();
+  protected $is_request_has_data = false;
   
   function __construct()
   {
@@ -100,6 +101,7 @@ class Form_Builder
   
   function add_error($field_name, $value)
   {
+    if (!array_key_exists($field_name, $this->form_data['name'])) $this->form_data['name'][$field_name] = $this->form_data['form']['name'].'_'.$field_name;
     $this->errors[$this->form_data['form']['name'].'_'.$field_name][] = $value;
   }
   
@@ -217,6 +219,7 @@ class Form_Builder
   {
     if ($this->check_request() === true)
     {
+      $this->is_request_has_data = true;
       foreach($this->form_data['type'] as $key=>$type)
       {
         if(!empty($custom_config) && array_key_exists($key, $custom_config) && array_key_exists('type', $custom_config[$key])) $type = $custom_config[$key]['type'];
@@ -236,7 +239,8 @@ class Form_Builder
     }
     else
     {
-      $this->errors['Validation'] = 'Wrong request';
+      $this->errors['validation'] = 'Wrong request';
+      $this->is_request_has_data = false;
       return false;
     }
   }
@@ -310,14 +314,17 @@ class Form_Builder
       foreach ($this->form_data['type'] as $key=>$value)
         switch ($value)
         {
-        case 'email': case 'edit': case 'phone':
-            $this->form_data['HTML_type'][$key] = 'text';
-            break;
-        case 'pass': case 're_pass':
-            $this->form_data['HTML_type'][$key] = 'password';
-            break;
-        default:
-            $this->form_data['HTML_type'][$key] = 'text';
+          case 'email':
+              $this->form_data['HTML_type'][$key] = 'text';
+              break;
+          case 'edit': case 'phone':
+              $this->form_data['HTML_type'][$key] = 'text';
+              break;
+          case 'pass': case 're_pass':
+              $this->form_data['HTML_type'][$key] = 'password';
+              break;
+          default:
+              $this->form_data['HTML_type'][$key] = 'text';
         }
         
     if (!empty($this->form_data['r_only']) && is_array($this->form_data['r_only']))
@@ -378,15 +385,14 @@ class Form_Builder
         switch ($this->form_data['type'][$key]) 
         {
           case 'radio':
-          
             $label_pattern = '<label[^>]*for\s*=\s*\"??[^\" >]*?'.$key.'[^\" >]*?\"??[^>]*>[^<]*<\/label>';
             $radio_pattern = '<input[^>]*name\s*=\s*\"??[^\" >]*?'.$key.'[^\" >]*?\"??[^>]*/>';
             $inside_pattern = '<label[^>]*>[^<]*'.$radio_pattern.'[^<]*<\/label>';
             $result_arr = array();
             $replace_string = false;
-            if (0 !== preg_match ('~(<p[^>]*>)*?\s*'.$inside_pattern.'[^<]*(<\/p>)*?(<br\s*?\/>)*?~siU', $view_string, $result_arr)) $replace_string = $result_arr[0];
-            elseif (0 !== preg_match ('~(<p[^>]*>)*?\s*'.$radio_pattern.'[^<]*'.$label_pattern.'[^<]*(<\/p>)*?(<br\s*?\/>)*?~siU', $view_string, $result_arr)) $replace_string = $result_arr[0];
-            elseif (0 !== preg_match ('~(<p[^>]*>)*?\s*'.$label_pattern.'[^<]*'.$radio_pattern.'[^<]*(<\/p>)*?(<br\s*?\/>)*?~siU', $view_string, $result_arr)) $replace_string =  $result_arr[0];
+            if (0 !== preg_match ('/(<p[^>]*>)*?\s*'.$inside_pattern.'[^<]*(<\/p>)*?(<br\s*?\/>)*?/siuU', $view_string, $result_arr)) $replace_string = $result_arr[0];
+            elseif (0 !== preg_match ('/(<p[^>]*>)*?\s*'.$radio_pattern.'[^<]*'.$label_pattern.'[^<]*(<\/p>)*?(<br\s*?\/>)*?/siuU', $view_string, $result_arr)) $replace_string = $result_arr[0];
+            elseif (0 !== preg_match ('/(<p[^>]*>)*?\s*'.$label_pattern.'[^<]*'.$radio_pattern.'[^<]*(<\/p>)*?(<br\s*?\/>)*?/siuU', $view_string, $result_arr)) $replace_string =  $result_arr[0];
             
             if ($replace_string !== false)
             {
@@ -415,7 +421,7 @@ class Form_Builder
             $select_pattern = '<option[^>]*value\s*=\s*\"??[^\" >]*?'.$key.'[^\" >]*?\"??[^>]*>[^<]*<\/option>';
            
             $replace_string = false;
-            if (0 !== preg_match ('~'.$select_pattern.'~siU', $view_string, $result_arr)) $replace_string = $result_arr[0];
+            if (0 !== preg_match ('/'.$select_pattern.'/siuU', $view_string, $result_arr)) $replace_string = $result_arr[0];
 
             if ($replace_string !== false)
             {
@@ -464,7 +470,27 @@ class Form_Builder
     }
     else
     {
-      if (!empty($view_string)) return $this->CI->parser->parse_string($view_string, $this->form_data, true);
+      if (!empty($view_string)) 
+      {
+        // If we need to draw errors for not xhr request
+        foreach($this->form_data['name'] as $key => $name)
+        {
+          $error_pattern = '<(?:div|span|p)[^>]*data-error_name\s*=\s*\"??[^\" >]*?{name:'.$key.'}[^\" >]*?\"??[^>]*>)([^<]*)(<\/(?:div|span|p)>';
+          $matches_arr = array();
+          if (0 !== preg_match ('/((?:<p[^>]*>)*?\s*'.$error_pattern.'[^<]*(?:<\/p>)*?(?:<br\s*?\/>)*?)/siuU', $view_string, $matches_arr))
+          { 
+            if (array_key_exists($name, $this->errors)) 
+            {
+              $replace_string = '';
+              foreach ($this->errors[$name] as $error)
+                $replace_string .= trim($matches_arr[1]).$error.trim($matches_arr[3]);
+              $view_string = str_replace(trim($matches_arr[0]), $replace_string, $view_string);
+            }
+            else $view_string = str_replace(trim($matches_arr[0]), '', $view_string);
+          }
+        }
+          return $this->CI->parser->parse_string($view_string, $this->form_data, true);
+      }
       else return '';
     }
   }

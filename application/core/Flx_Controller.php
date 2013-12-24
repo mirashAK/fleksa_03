@@ -12,6 +12,7 @@ class Flx_Controller extends CI_Controller
     
     $this->load->database($db_alias);
     $this->load->library('core/flx_user_lib', array(), 'user');
+    $this->load->library('core/flx_secured_lib', array(), 'secured');
     $this->set_language(isset($this->user->user_public->u_lang)?$this->user->user_public->u_lang:null);
     $this->view_data['lang'] = lang();
     
@@ -85,7 +86,7 @@ class Flx_Controller extends CI_Controller
   protected function redirect($url, $type = 'refresh')
   {
     $this->user_session->save();
-    $this->user->save_public();
+    //$this->user->save_public();
     redirect($url, $type);
   }
 }
@@ -97,7 +98,6 @@ class Flx_Controller extends CI_Controller
   require_once APPPATH.'libraries/common/xhr_answer.php';
   
   require_once APPPATH.'libraries/core/flx_form_builder_lib.php';
-  
 
 /* End of file Flx_Controller.php */
 /* Location: ./application/core/Flx_Controller.php */

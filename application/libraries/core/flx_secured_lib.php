@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class secured_lib extends Front_Controller
+class Flx_Secured_Lib /*extends Front_Controller*/
 {
   protected $CI = null;
   protected $xhr_answer = null;
@@ -18,6 +18,20 @@ class secured_lib extends Front_Controller
     }
   }
   
+  /**
+    * __get
+    *
+    * Allows models to access CI's loaded classes using the same
+    * syntax as controllers.
+    *
+    * @param   string
+    * @access private
+    */
+  function __get($key)
+  {
+      return $this->CI->$key;
+  }
+    
   public function __call ( $method, $argv )
   {
     if (method_exists($this, $method)) 

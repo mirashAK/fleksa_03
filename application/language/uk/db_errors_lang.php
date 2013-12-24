@@ -3,7 +3,7 @@
 $lang['COMMON_EMPTY_RESULT'] =  'Empty result';
 
 $lang['DO_AUTH_VAL_NOT_SET'] = 'Some value not set';
-$lang['DO_AUTH_COMB_NOT_FOUND'] = 'Combination not found';
+$lang['DO_AUTH_COMB_NOT_FOUND'] = 'Комбинация не найдена';
 $lang['DO_AUTH_USER_NOT_ACTIVE'] =  'User not activated';
 
 $lang['ADD_USER_EMPTY_EMAIL'] = 'Email  is empty';

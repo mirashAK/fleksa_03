@@ -12,15 +12,15 @@ $config['flx_do_auth'] = array(
 ); 
 
 $config['flx_add_user'] = array(
+  '-3'=>'ADD_USER_EMAIL_EXISTS', /* add_user : 'Email exists' */
   '-2'=>'ADD_USER_EMPTY_EMAIL', /* add_user : 'Email  is empty' */
   '-1'=>'ADD_USER_EMPTY_PASS', /* add_user : 'Password  is empty' */
-  '0' =>'ADD_USER_EMAIL_EXISTS', /* add_user : 'Email exists' */
 ); 
 
 $config['flx_reg_user'] = array(
+  '-3'=>'REG_USER_ALREADY_REGISTERED', /* reg_user : 'User already registered' */
   '-2'=>'REG_USER_TOKEN_NOT_FOUND', /* reg_user : 'Reg token not found' */
   '-1'=>'REG_USER_EMPTY_USERDATA', /* reg_user : 'User data is empty' */
-  '0' =>'REG_USER_ALREADY_REGISTERED', /* reg_user : 'User already registered' */
 ); 
 
 $config['flx_reset_passwd'] = array(

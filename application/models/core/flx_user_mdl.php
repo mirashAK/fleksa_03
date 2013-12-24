@@ -106,16 +106,16 @@ class Flx_User_Mdl extends Flx_Model
     return false;
   }
   
+  public function get_public_users_table(&$user)
+  {
+    return $this->row_object($user, 'public_users', 'u_f_user_id = '.$user->user_id);
+  }
+  
   public function check_route_permission($uri)
   {
     $db_result = $this->row_object($this->user, 'public_menus', "menu_item_link = '$uri'");
     if ($db_result->value === false) return false;
     return true;
-  }
-  
-  public function get_user_reg_signature()
-  {
-    return $this->get_table_signature($this->user, 'public_users');
   }
   
 }

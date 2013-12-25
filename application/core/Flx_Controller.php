@@ -86,7 +86,7 @@ class Flx_Controller extends CI_Controller
   protected function redirect($url, $type = 'refresh')
   {
     $this->user_session->save();
-    //$this->user->save_public();
+    //$this->user->save_public(); //TODO
     redirect($url, $type);
   }
 }

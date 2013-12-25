@@ -120,7 +120,8 @@ class Flx_User_Lib
     $this->user_token = $this->user_session->sess_token;
     $this->user_ip = $this->user_session->sess_ip;
     $this->user_last_activity = $this->user_session->sess_last_activity;
-    $this->user_public = new Safe_Class($this->flx_user_mdl->get_public_user_data($this));
+    if ($this->user_id !== 0) $this->user_public = new Safe_Class($this->flx_user_mdl->get_public_user_data($this));
+    else $this->user_public = new Safe_Class();
     unset($result);
   }
   

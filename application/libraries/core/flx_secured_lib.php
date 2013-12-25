@@ -13,7 +13,7 @@ class Flx_Secured_Lib /*extends Front_Controller*/
     if ($this->CI->input->is_ajax_request() === true)
     {
       $this->is_xhr = true;
-      $this->xhr_answer = $this->CI->load->library('xhr_answer');
+      $this->xhr_answer = new Xhr_Answer();
       $this->user = $this->CI->user;
     }
   }
@@ -87,7 +87,7 @@ class Flx_Secured_Lib /*extends Front_Controller*/
     
       if ($this->input->is_ajax_request() === true) 
       {
-        $this->load->library('xhr_answer');
+        $this->xhr_answer = new Xhr_Answer();
         $this->xhr_answer->redirect = base_url('auth');
         $this->xhr_answer->send();
       }

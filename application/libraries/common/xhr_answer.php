@@ -33,6 +33,8 @@ class Xhr_Answer
         ob_end_flush(); // Strange behaviour, will not work
         flush(); // Unless both are called !
         $this->is_sent = true;
+        
+        log_message('debug', 'Sent XHR answer');
     }
   }
   

@@ -25,9 +25,11 @@ class Session_Test extends Test_Controller {
       $this->view_data['sess_last_activity'] = $this->user_session->sess_last_activity;
       $this->view_data['user_dump'] = var_export($this->user, true);
       $this->view_data['session_dump'] = var_export($this->user_session->get_full_sess_data(), true);
-      
-      
+
       $this->add_css('test/standard.css');
+      $this->add_script('core/jquery.min.js');
+      $this->add_script('core/handler_forms.js');
+      $this->add_script('forms.js');
       $this->view_data['site_title'] = $this->lang->line('test_page_title');
       $this->view_data['site_body'] = $this->parse_in('_common/testing/session_test_view');
       $this->parse_out('test_template');

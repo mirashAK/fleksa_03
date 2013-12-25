@@ -11,7 +11,6 @@ class Flx_User_Lib
     $this->load->model('core/flx_session_mdl', 'user_session');
     $this->load->model('core/flx_user_mdl', 'flx_user_mdl');
     $this->_set_values();
-     var_export($this->flx_user_mdl->get_public_users_table($this));
   }
   
   public function do_auth ($email, $pass)

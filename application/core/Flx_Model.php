@@ -60,6 +60,8 @@ class Flx_Model extends CI_Model
   // Возвращает многомерный ассоциативный массив - поля запрошенной строки, с указанием типа и заголовка
   protected function row_array (&$user, $table, $where = '')
   {
+    if (empty($where)) return $this->get_table_signature($user, $table);
+    
     // Ну тут всё понятно - вызываем метод get_table, выставив лимит = 1
     // Метод возвращает сразу объект типа CI_DB_mysqli_result
     $first_result = $this->get_table ($user, $table, $where, '', 1);
@@ -240,6 +242,8 @@ class Flx_Model extends CI_Model
   
   protected function row_object ($user, $table, $where = '')
   {
+    if (empty($where)) return $this->get_table_signature($user, $table); //TODO Проверить соответствие с выводом в виде объекта.
+    
     // Вызываем метод get_table.
     // Метод возвращает объект типа CI_DB_mysqli_result
     $first_result = $this->get_table ($user, $table, $where, '', 1);

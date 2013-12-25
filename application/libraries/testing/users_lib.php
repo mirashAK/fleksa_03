@@ -14,6 +14,7 @@ class Users_Lib extends Flx_Secured_Lib
     if ($this->input->is_ajax_request())
     {
       $auth_form->xhr_answer->redirect = sub_url('testing/session_test');
+      $auth_form->draw_form();
     }
     return $auth_form->draw_form('_common/testing/forms/auth_form', $view_data);
   }

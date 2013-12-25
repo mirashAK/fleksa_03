@@ -82,7 +82,7 @@ jQuery(document).ready(function()
               {
                 //console.log(answer.redirect);
                 // Фикс глюка WebKit браузеров, когда они не сохраняют значения полей для autocomplete
-                if ($.browser.webkit)
+                if (navigator.detect_WebKit())
                 {
                   form.find('[type="submit"]').each(function() {$(this).removeAttr("disabled")});
                   form.off('submit');
@@ -115,22 +115,13 @@ jQuery(document).ready(function()
         }).always(function() {form.find('[type="submit"]').each(function() {$(this).removeAttr("disabled");}); after_send (form); });
       });
     };
-  
-   
-    Flx.Forms_sender(
-    {
-      form_name: 'auth_form'
-    });
     
-    Flx.Forms_sender(
+    navigator.detect_WebKit = (function()
     {
-      form_name: 'reg_form',
-      reload_container: '#reload_container',
-      on_key_press: function (event) { jQuery(event.target).removeClass('error'); },
-      on_error: function (elem, errors) {elem.addClass('error').after('<span>'+errors+'</span>'); },
-      before_send: function (form) { form.find('.btn-primary').addClass('is-wait'); }        
+      var ua= navigator.userAgent;
+      return /(opera|chrome|safari(?=\/))\/?\s*([\d\.]+)/i.test(ua);
     });
-    
+
 }); 
 
 

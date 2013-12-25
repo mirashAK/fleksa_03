@@ -14,7 +14,7 @@ class Form_Builder
   {
     $this->CI =& get_instance();
     $this->CI->load->helper('form_builder_helper');
-    $this->xhr_answer = new Xhr_Answer();
+    $this->xhr_answer = $this->CI->xhr_answer;
   }
 
   public static function factory ($flx_form_name = '', $flx_form_action = '')

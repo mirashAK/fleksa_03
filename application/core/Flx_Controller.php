@@ -1,5 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+  require_once APPPATH.'libraries/common/safe_class.php';
+  require_once APPPATH.'libraries/common/xhr_answer.php';
+
 class Flx_Controller extends CI_Controller 
 {
   protected $view_data = array();
@@ -13,6 +16,7 @@ class Flx_Controller extends CI_Controller
     $this->load->database($db_alias);
     $this->load->library('core/flx_user_lib', array(), 'user');
     $this->load->library('core/flx_secured_lib', array(), 'secured');
+    $this->xhr_answer = new Xhr_Answer();
     $this->set_language(isset($this->user->user_public->u_lang)?$this->user->user_public->u_lang:null);
     $this->view_data['lang'] = lang();
     
@@ -94,9 +98,6 @@ class Flx_Controller extends CI_Controller
   require_once APPPATH.'controllers/core/front_controller.php';
   require_once APPPATH.'controllers/core/test_controller.php';
 
-  require_once APPPATH.'libraries/common/safe_class.php';
-  require_once APPPATH.'libraries/common/xhr_answer.php';
-  
   require_once APPPATH.'libraries/core/flx_form_builder_lib.php';
 
 /* End of file Flx_Controller.php */

@@ -24,10 +24,10 @@ class Flx_Controller extends CI_Controller
     $this->view_data['sub_url'] = sub_url();
     $this->view_data['res_url'] = res_url();
       
-    $this->view_data['res_js'] = res_url('assets/js/');
-    $this->view_data['res_css'] = res_url('assets/css/');
-    $this->view_data['res_img'] = res_url('assets/img/');
-    $this->view_data['res_btsp'] = res_url('assets/bootstrap/');
+    $this->view_data['res_js'] = res_url('resources/js/');
+    $this->view_data['res_css'] = res_url('resources/css/');
+    $this->view_data['res_img'] = res_url('resources/img/');
+    $this->view_data['res_btsp'] = res_url('resources/bootstrap/');
   }
   
   protected function parse_in($view_name, $custom_data = null)

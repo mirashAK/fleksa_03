@@ -2,7 +2,8 @@ jQuery(document).ready(function()
 {
     Flx.Forms_sender(
     {
-      form_name: 'auth_form'
+      form_name: 'auth_form',
+      reload_container: '#auth_form_reload_container'  
     });
     
     Flx.Forms_sender(

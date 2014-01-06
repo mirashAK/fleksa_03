@@ -1,5 +1,5 @@
 <div id="container">
-	<h1>Welcome to Fleksa v.02 !</h1>
+	<h1>Welcome to Fleksa v.03 !</h1>
 
 	<div id="body">
 	
@@ -15,13 +15,11 @@
           <div class="auth_form_reload_container">
           {auth_form}
           </div>
-        <p><input id="xhr_auth_button" type="button" value="XHR Auth test" /></p>
         
         <p>Reg form:</p>
           <div id="reload_container">
           {reg_form}
           </div>
-        <p><input id="xhr_reg_button" type="button" value="XHR Reg test" /></p>
         
         <p>Logout:
         <a href="{sub_url}/testing/session_test/logout">Logout</a></p>

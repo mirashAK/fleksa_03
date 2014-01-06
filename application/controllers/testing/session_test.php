@@ -11,8 +11,8 @@ class Session_Test extends Test_Controller {
     
 	public function index()
 	{
-      $this->view_data['auth_form'] = $this->users_lib->auth_form($this->view_data);
-      $this->view_data['reg_form'] = $this->users_lib->reg_form($this->view_data);
+      $this->view_data['auth_form'] = $this->users_lib->auth_form(sub_url('testing/session_test/auth'), $this->view_data);
+      $this->view_data['reg_form'] = $this->users_lib->reg_form(sub_url('testing/session_test/add_user'), $this->view_data);
       
       if ($this->user_session->get_params)
       {
@@ -37,10 +37,12 @@ class Session_Test extends Test_Controller {
 	
 	public function auth()
     {
+      $this->users_lib->auth_form(sub_url('testing/session_test/auth'), $this->view_data);
     }
     
     public function add_user()
     {
+      $this->users_lib->reg_form(sub_url('testing/session_test/add_user'), $this->view_data);
     }
     
     public function reg_user($token = null)
@@ -57,6 +59,3 @@ class Session_Test extends Test_Controller {
       if ($this->user->logout() == true) redirect(sub_url('testing/session_test'), 'refresh');
     }
 }
-
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */

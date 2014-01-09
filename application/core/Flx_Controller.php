@@ -5,7 +5,7 @@
   
 class Flx_Controller extends CI_Controller 
 {
-  protected $view_data = array();
+  public $view_data = array();
   
   function __construct ($db_alias = 'default')
   {
@@ -15,7 +15,6 @@ class Flx_Controller extends CI_Controller
     
     $this->load->database($db_alias);
     $this->load->library('core/flx_user_lib', array(), 'user');
-    //$this->load->library('core/flx_secured_lib', array(), 'flx_secured_lib');
     $this->xhr_answer = new Xhr_Answer();
     $this->set_language(isset($this->user->user_public->u_lang)?$this->user->user_public->u_lang:null);
     $this->view_data['lang'] = lang();

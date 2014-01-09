@@ -1,24 +1,18 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Flx_Secured_Lib /*extends Front_Controller*/
+class Flx_Secured_Lib
 {
   protected $CI = null;
   protected $xhr_answer = null;
-  protected $is_xhr = false;
+  protected $view_data = array();
   
   protected $check_arr = array();
 
   public function __construct()
   {
-    $this->CI =& get_instance();
-//     
-//     if ($this->CI->input->is_ajax_request() === true)
-//     {
-//       $this->is_xhr = true;
-// //       $this->xhr_answer = $this->CI->xhr_answer;
-//       
-//     }
-//     $this->user = $this->CI->user;
+    $this->CI = & get_instance();
+    $this->xhr_answer = & $this->CI->xhr_answer;
+    $this->view_data = & $this->CI->view_data;
     log_message('debug', 'Flx Secured Lib loaded');
   }
   
@@ -54,17 +48,7 @@ class Flx_Secured_Lib /*extends Front_Controller*/
         unset($check_method); unset($methods_arr); 
       }
       return call_user_func_array(array($this, $method), $argv);
-    
-//       if ($this->is_xhr == true)
-//       {
-//         if (true === $this->xhr_check($method, $argv)) return call_user_func_array(array($this, $method), $argv);
-//       }
-//       else 
-//       {
-//         if (true === $this->check($method, $argv)) return call_user_func_array(array($this, $method), $argv);
-//       }
     }
-    
     return false;
   }
   

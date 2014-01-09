@@ -18,7 +18,6 @@ class Lib_Test extends Test_Controller
       $this->view_data['get_static_page'] = var_export($this->test_secured_lib->get_static_page(), true);
       $this->view_data['get_some_info'] = var_export($this->test_secured_lib->get_some_info(), true);
       
-      
       $this->add_css('test/standard.css');
       $this->view_data['site_title'] = $this->lang->line('test_page_title');
       $this->view_data['site_body'] = $this->parse_in('_common/testing/lib_test_view');

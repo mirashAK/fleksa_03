@@ -8,7 +8,7 @@ class Users_Lib extends Flx_Secured_Lib
       log_message('debug', 'Users Lib loaded');
     }
 
-  public function auth_form ($url = false, $view_data = array())
+  public function auth_form ($url = false)
   {
     $auth_form = Form_Builder::factory('auth_form', $url);
     
@@ -22,10 +22,10 @@ class Users_Lib extends Flx_Secured_Lib
       $auth_form->xhr_answer->redirect = sub_url('testing/session_test');
       $auth_form->draw_form();
     }
-    return $auth_form->draw_form('_common/testing/forms/auth_form', $view_data);
+    return $auth_form->draw_form('_common/testing/forms/auth_form', $this->view_data);
   }
   
-  public function reg_form ($url = false, $view_data = array())
+  public function reg_form ($url = false)
   {
     $reg_form = Form_Builder::factory('reg_form', $url);
     
@@ -42,7 +42,7 @@ class Users_Lib extends Flx_Secured_Lib
     }
     
     if ($this->input->is_ajax_request()) $reg_form->draw_form();
-    else return $reg_form->draw_form('_common/testing/forms/reg_form', $view_data);
+    else return $reg_form->draw_form('_common/testing/forms/reg_form', $this->view_data);
   }
   
   public function reg_user($token)

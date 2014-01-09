@@ -108,11 +108,150 @@ if ( ! function_exists('sub_domain'))
  */
 if ( ! function_exists('lang'))
 {
-    function lang()
+    function lang($url = false)
     {
         $CI =& get_instance();
-        return $CI->config->lang();
+        return $CI->config->lang($url);
     }
 }
 
+function GB ($bytes = null)
+{
+  return round($bytes/(1024*1024*1024), 2, PHP_ROUND_HALF_UP);
+}
 
+function MB ($bytes = null)
+{
+  return round($bytes/(1024*1024), 2, PHP_ROUND_HALF_UP);
+}
+
+function KB ($bytes = null)
+{
+  return round($bytes/(1024), 2, PHP_ROUND_HALF_UP);
+}
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('mysql_russian_date'))
+{
+   function mysql_russian_date($datestr = '')
+   {
+      if ($datestr == '')
+         return '';
+
+      // получаем значение даты и времени
+          list($day) = explode(' ', $datestr);
+
+          switch( $day )
+          {
+         // Если дата совпадает с сегодняшней
+         case date('Y-m-d'):
+                       $result = 'cегодня';
+                        break;
+
+         //Если дата совпадает со вчерашней
+         case date( 'Y-m-d', mktime(0, 0, 0, date("m")  , date("d")-1, date("Y")) ):
+                      $result = 'вчера';
+                        break;
+
+          default:
+          {
+               // Разделяем отображение даты на составляющие
+                 list($y, $m, $d)  = explode('-', $day);
+
+            $month_str = array(
+                   'января', 'февраля', 'марта',
+                   'апреля', 'мая', 'июня',
+                   'июля', 'августа', 'сентября',
+                   'октября', 'ноября', 'декабря'
+                );
+            $month_int = array(
+                   '01', '02', '03',
+                   '04', '05', '06',
+                   '07', '08', '09',
+                   '10', '11', '12'
+                );
+  
+            // Замена числового обозначения месяца на словесное (склоненное в падеже)
+                      $m = str_replace($month_int, $month_str, $m);
+                      // Формирование окончательного результата
+            $result = $d.' '.$m.' '.$y;
+         }
+          }
+           return $result;
+
+
+   }
+}
+
+
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('mysql_russian_datetime'))
+{
+   function mysql_russian_datetime($datestr = '', $delim = ' в ')
+   {
+      if ($datestr == '')
+         return '';
+
+              // Разбиение строки в 3 части - date, time and AM/PM 
+              $dt_elements = explode(' ',$datestr);
+              
+              // Разбиение даты
+              $date_elements = explode('-',$dt_elements[0]);
+              
+              // Разбиение времени
+              $time_elements =  explode(':',$dt_elements[1]);
+              
+              // вывод результата
+              $result1 = mktime($time_elements[0],$time_elements[1],$time_elements[2], $date_elements[1],$date_elements[2], $date_elements[0]);
+          
+               $monthes =
+                  array(' ','января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря');
+                  $days =
+                  array(' ','понедельник','вторник','среда','четверг','пятница','суббота','воскресенье');
+                  $day = date("j",$result1);
+                  $month = $monthes[date("n",$result1)];
+                  $year = date("Y",$result1);
+                  $hour = date("H",$result1);
+                  $minute = date("i",$result1);
+                  $dayofweek = $days[date("N",$result1)];
+                  $result = $day.' '.$month.' '.$year.$delim.$hour.':'.$minute;
+        
+         
+           return $result;
+
+
+   }
+}
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('proceedTextual'))
+{
+   function proceedTextual( $numeric, $many, $one, $two )
+   {
+        $numeric = (int) abs($numeric);
+        if ( $numeric % 100 == 1 || ($numeric % 100 > 20) && ( $numeric % 10 == 1 ) ) return $one;
+        if ( $numeric % 100 == 2 || ($numeric % 100 > 20) && ( $numeric % 10 == 2 ) ) return $two;
+        if ( $numeric % 100 == 3 || ($numeric % 100 > 20) && ( $numeric % 10 == 3 ) ) return $two;
+        if ( $numeric % 100 == 4 || ($numeric % 100 > 20) && ( $numeric % 10 == 4 ) ) return $two;
+
+        return $many;
+    }
+}
+// ------------------------------------------------------------------------
+
+if ( ! function_exists('proceed_textual_arr'))
+{
+   function proceed_textual_arr ($numeric, $str_arr)
+   {
+        $numeric = (int) abs($numeric);
+        if ( $numeric % 100 == 1 || ($numeric % 100 > 20) && ( $numeric % 10 == 1 ) ) return $str_arr[1];
+        if ( $numeric % 100 == 2 || ($numeric % 100 > 20) && ( $numeric % 10 == 2 ) ) return $str_arr[2];
+        if ( $numeric % 100 == 3 || ($numeric % 100 > 20) && ( $numeric % 10 == 3 ) ) return $str_arr[2];
+        if ( $numeric % 100 == 4 || ($numeric % 100 > 20) && ( $numeric % 10 == 4 ) ) return $str_arr[2];
+
+        return $str_arr[0];
+    }
+}
+// ------------------------------------------------------------------------

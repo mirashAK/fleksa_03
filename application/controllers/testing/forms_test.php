@@ -74,7 +74,7 @@ class Forms_Test extends Test_Controller
       $this->view_data['static_page_form'] = $form->draw_form('_common/testing/forms/static_page_form', $this->view_data['site_title']);
 
       $this->add_css('test/standard.css');
-      $this->add_script('core/jquery.min.js');
+      $this->add_script('vendor/jquery.min.js');
       $this->add_script('core/handler_forms.js');
       $this->add_script('forms.js');
       $this->view_data['site_title'] = $this->lang->line('test_page_title');

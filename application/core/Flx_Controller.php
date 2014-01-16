@@ -26,7 +26,7 @@ class Flx_Controller extends CI_Controller
     $this->view_data['res_js'] = res_url('resources/js/');
     $this->view_data['res_css'] = res_url('resources/css/');
     $this->view_data['res_img'] = res_url('resources/img/');
-    $this->view_data['res_btsp'] = res_url('resources/bootstrap/');
+    $this->view_data['res_kickstart'] = sub_url('resources/css/vendor/kickstart', false);
   }
   
   protected function parse_in($view_name, $custom_data = null)
@@ -74,15 +74,17 @@ class Flx_Controller extends CI_Controller
     }
   }
   
-  protected function add_script($script_name)
+  protected function add_script($script_name, $custom_path = false, $custom_attrs = '')
   {
-    if (!empty($this->view_data['res_js'])) $script_name = $this->view_data['res_js'].'/'.trim( $script_name,'/');
-    $this->view_data['scripts'][] = array('script'=>'<script src="'.$script_name.'"></script>');
+    if (!empty($this->view_data['res_js']) && ($custom_path === false)) $script_name = $this->view_data['res_js'].'/'.trim( $script_name,'/');
+    else $script_name = $custom_path.'/'.trim( $script_name,'/');
+    $this->view_data['scripts'][] = array('script'=>'<script type="text/javascript" src="'.$script_name.'" '.$custom_attrs.'></script>');
   }
   
-  protected function add_css($css_name, $media = 'all')
+  protected function add_css($css_name, $custom_path = false, $media = 'all')
   {
-    if (!empty($this->view_data['res_css'])) $css_name = $this->view_data['res_css'].'/'.trim( $css_name, '/');
+    if (!empty($this->view_data['res_css']) && ($custom_path === false)) $css_name = $this->view_data['res_css'].'/'.trim( $css_name, '/');
+    else $css_name = $custom_path.'/'.trim( $css_name, '/');
     $this->view_data['styles'][] = array('style'=>'<link rel="stylesheet" type="text/css" href="'.$css_name.'" media="'.$media.'">');
   }
 

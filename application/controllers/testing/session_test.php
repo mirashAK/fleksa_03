@@ -11,8 +11,8 @@ class Session_Test extends Test_Controller {
     
 	public function index()
 	{
-      $this->view_data['auth_form'] = $this->users_lib->auth_form(sub_url('testing/session_test/auth'), $this->view_data);
-      $this->view_data['reg_form'] = $this->users_lib->reg_form(sub_url('testing/session_test/add_user'), $this->view_data);
+      $this->view_data['auth_form'] = $this->users_lib->auth_form(sub_url('testing/session_test/auth'));
+      $this->view_data['reg_form'] = $this->users_lib->reg_form(sub_url('testing/session_test/add_user'));
       
       if ($this->user_session->get_params)
       {
@@ -27,7 +27,7 @@ class Session_Test extends Test_Controller {
       $this->view_data['session_dump'] = var_export($this->user_session->get_full_sess_data(), true);
 
       $this->add_css('test/standard.css');
-      $this->add_script('core/jquery.min.js');
+      $this->add_script('vendor/jquery.min.js');
       $this->add_script('core/handler_forms.js');
       $this->add_script('test/forms.js');
       $this->view_data['site_title'] = $this->lang->line('test_page_title');
@@ -37,12 +37,12 @@ class Session_Test extends Test_Controller {
 	
 	public function auth()
     {
-      $this->users_lib->auth_form(sub_url('testing/session_test/auth'), $this->view_data);
+      $this->users_lib->auth_form(sub_url('testing/session_test/auth'));
     }
     
     public function add_user()
     {
-      $this->users_lib->reg_form(sub_url('testing/session_test/add_user'), $this->view_data);
+      $this->users_lib->reg_form(sub_url('testing/session_test/add_user'));
     }
     
     public function reg_user($token = null)

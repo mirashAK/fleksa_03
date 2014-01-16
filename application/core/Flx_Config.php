@@ -106,7 +106,7 @@ class Flx_Config extends CI_Config {
     * @access  public
     * @return  string
     */
-  function lang()
+  function lang($url = false)
   {
     return $this->config['language'] . ($url !== false ? "/$url" : '');
   }

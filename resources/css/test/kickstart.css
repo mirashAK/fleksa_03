@@ -157,3 +157,13 @@ border:5px solid #ddd;
 margin:30px 0;
 display:block;
 }
+
+.list_holder{
+  background:#FFF;
+  border:1px solid #ddd;
+  border-radius: 5px;
+}
+
+input#user-name, button#add {
+  margin: 15px 5px;
+}

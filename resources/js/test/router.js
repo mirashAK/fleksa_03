@@ -6,9 +6,18 @@ define(function(){
     var currentHash = '';
      
     function start_routing(){
+
+        // Bind the event.
+        $(window).hashchange( function(){
+          // Alerts every time the hash changes!
+          hash_check();
+        });
+        
         window.location.hash = window.location.hash || defaultRoute;
-        setInterval(hash_check, 100);
+        hash_check();
     }
+    
+
      
      
     function hash_check(){
@@ -19,6 +28,7 @@ define(function(){
             }
             currentHash = window.location.hash;
         }
+        console.log(window.location.hash);
     }
      
     function load_controller(controller_name){

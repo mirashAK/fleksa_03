@@ -27,9 +27,14 @@ class Session_Test extends Test_Controller {
       $this->view_data['session_dump'] = var_export($this->user_session->get_full_sess_data(), true);
 
       $this->add_css('test/standard.css');
-      $this->add_script('vendor/jquery.min.js');
-      $this->add_script('core/handler_forms.js');
-      $this->add_script('test/forms.js');
+      
+      $this->add_script('vendor/jquery.hashchange.min.js');
+      //$this->add_script('vendor/require.js', false, 'data-main="'.$this->view_data['res_js'].'/test/rqjs_config.js"');
+      $this->add_script('vendor/require.js');
+      $this->add_script('test/rqjs_config.js');
+      $this->add_script('test/rqjs_forms.js');
+      $this->add_script('test/rqjs_math.js');
+
       $this->view_data['site_title'] = $this->lang->line('test_page_title');
       $this->view_data['site_body'] = $this->parse_in('_common/testing/session_test_view');
       $this->parse_out('test_template');

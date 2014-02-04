@@ -16,6 +16,7 @@ class Users_Lib extends Flx_Secured_Lib
     {
       $auth_result = $this->user->do_auth($auth_form->user_email, $auth_form->user_pass);
       if ($auth_result->has_error === true) $auth_form->add_error('auth_error', $auth_result->error_text); 
+      elseif ( !$this->input->is_ajax_request()) $this->redirect(sub_url('testing/session_test'));
     }
     if ($this->input->is_ajax_request())
     {

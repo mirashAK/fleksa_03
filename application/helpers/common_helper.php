@@ -99,6 +99,39 @@ if ( ! function_exists('sub_domain'))
     }
 }
 
+
+/**
+* base_link
+* Get menu item from `public_menus` by `menu_item_name`.
+ *
+ * @access  public
+ * @return  string
+ */
+if ( ! function_exists('base_link'))
+{
+    function base_link($link_alias = null, $include_lang = true)
+    {
+        $CI =& get_instance();
+        return $CI->flx_links_lib->base_link($link_alias, $include_lang);
+    }
+}
+
+/**
+* sub_link
+* Get menu item from `public_menus` by `menu_item_name`.
+ *
+ * @access  public
+ * @return  string
+ */
+if ( ! function_exists('sub_link'))
+{
+    function sub_link($link_alias = null, $include_lang = true)
+    {
+        $CI =& get_instance();
+        return $CI->flx_links_lib->sub_link($link_alias, $include_lang);
+    }
+}
+
 /**
 * lang
 * Shortcut to curr language

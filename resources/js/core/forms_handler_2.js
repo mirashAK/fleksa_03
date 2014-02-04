@@ -1,9 +1,7 @@
-jQuery(document).ready(function()
+define(function()
 {
-    Flx = {};
-  
-    // Определение отправщика формы
-    Flx.Forms_sender = function(form_data)
+    // Определение обработчика формы
+    function new_form (form_data)
     {
       var form = $('form[name="'+form_data.form_name+'"]');
       form.find('[type="submit"]').each(function() {$(this).removeAttr("disabled");});
@@ -121,7 +119,11 @@ jQuery(document).ready(function()
       var ua= navigator.userAgent;
       return /(opera|chrome|safari(?=\/))\/?\s*([\d\.]+)/i.test(ua);
     });
-
+    
+    return 
+    {
+        new_form:new_form;
+    }
 }); 
 
 

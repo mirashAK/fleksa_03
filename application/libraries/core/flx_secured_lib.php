@@ -52,4 +52,11 @@ class Flx_Secured_Lib
     return false;
   }
   
+  protected function redirect($url, $type = 'refresh')
+  {
+    $this->CI->user_session->save();
+    //$this->user->save_public(); //TODO
+    log_message('debug', 'Redirect to '.$url);
+    redirect($url, $type);
+  }
 }

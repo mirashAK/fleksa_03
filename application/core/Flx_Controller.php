@@ -15,6 +15,7 @@ class Flx_Controller extends CI_Controller
     
     $this->load->database($db_alias);
     $this->load->library('core/flx_user_lib', array(), 'user');
+    $this->load->library('core/flx_links_lib', array(), 'flx_links_lib');
     $this->xhr_answer = new Xhr_Answer();
     $this->set_language(isset($this->user->user_public->u_lang)?$this->user->user_public->u_lang:null);
     $this->view_data['lang'] = lang();
@@ -26,6 +27,7 @@ class Flx_Controller extends CI_Controller
     $this->view_data['res_js'] = res_url('resources/js/');
     $this->view_data['res_css'] = res_url('resources/css/');
     $this->view_data['res_img'] = res_url('resources/img/');
+    $this->view_data['res_btstp'] = sub_url('resources/css/vendor/bootstrap', false);
     $this->view_data['res_kickstart'] = sub_url('resources/css/vendor/kickstart', false);
   }
   

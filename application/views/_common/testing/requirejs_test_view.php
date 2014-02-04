@@ -2,10 +2,12 @@
 	<h4 class="center">Welcome to Fleksa v.03 !</h4>
     
 	<div id="body" class="grid">
-        <div class="grid center">
+        <div class="col_4 column"></div>
+        <div class="center col_4 column list_holder">
             <nav><a href="#list">List</a> - <a href="#add">Add</a></nav>
             <div id="app" class="grid left"></div>
         </div>
+        <div class="col_4 column"></div>
 	</div>
 </div>
 

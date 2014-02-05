@@ -6,6 +6,7 @@
 class Flx_Controller extends CI_Controller 
 {
   public $view_data = array();
+  protected $Mustashe;
   
   function __construct ($db_alias = 'default')
   {
@@ -29,22 +30,38 @@ class Flx_Controller extends CI_Controller
     $this->view_data['res_img'] = res_url('resources/img/');
     $this->view_data['res_btstp'] = sub_url('resources/css/vendor/bootstrap', false);
     $this->view_data['res_kickstart'] = sub_url('resources/css/vendor/kickstart', false);
+    
+    $this->Mustashe = new Mustache_Engine;
   }
   
-  protected function parse_in($view_name, $custom_data = null)
+  protected function parse_in ($view_name, $custom_data = null)
   {
     if (!empty($this->parser))
       if (!empty($custom_data)) return $this->parser->parse($view_name, $custom_data, TRUE);
       else return $this->parser->parse($view_name, $this->view_data, TRUE);
   }
 
-  protected function parse_out($view_name)
+  protected function m_parse_in ($view_name, $custom_data = null)
+  {
+      if (!empty($custom_data))
+      {
+          $view = $this->load->view($view_name, $custom_data, true);
+          return $this->Mustashe->render($view, $custom_data);
+      }
+      else
+      {
+          $view = $this->load->view($view_name, $this->view_data, true);
+          return $this->Mustashe->render($view, $this->view_data);
+      }
+  }
+  
+  protected function parse_out ($view_name)
   {
     if (!empty($this->parser))
       $this->parser->parse($view_name, $this->view_data);
   }
 
-  protected function set_language($user_lang = null)
+  protected function set_language ($user_lang = null)
   {
     $this->config->load('languages');
     $lang = '';
@@ -103,6 +120,9 @@ class Flx_Controller extends CI_Controller
 
   require_once APPPATH.'libraries/core/flx_secured_lib.php';
   require_once APPPATH.'libraries/core/flx_form_builder_lib.php';
+  
+  require_once APPPATH.'third_party/Mustache/Autoloader.php';
+  Mustache_Autoloader::register();
 
 /* End of file Flx_Controller.php */
 /* Location: ./application/core/Flx_Controller.php */

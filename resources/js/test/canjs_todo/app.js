@@ -18,11 +18,13 @@ require([
     $(function () {
         // Set up a route that maps to the `filter` attribute
         route(':filter');
+        
 
         // Render #app-template
         $('#todoapp').html(can.view('app-template', {}));
 
         // Start the router
         route.ready();
+        console.log(route.attr());
     });
 });

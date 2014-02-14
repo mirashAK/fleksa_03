@@ -28,6 +28,7 @@ class Flx_Controller extends CI_Controller
     $this->view_data['res_js'] = res_url('resources/js/');
     $this->view_data['res_css'] = res_url('resources/css/');
     $this->view_data['res_img'] = res_url('resources/img/');
+    $this->view_data['res_require_js'] = res_url('resources/js/vendor/require.js');
     $this->view_data['res_btstp'] = sub_url('resources/css/vendor/bootstrap', false);
     $this->view_data['res_kickstart'] = sub_url('resources/css/vendor/kickstart', false);
     
@@ -90,6 +91,25 @@ class Flx_Controller extends CI_Controller
     
     if ($this->config->item('lang_redirect') && (empty($this->uri->lang) || $user_lang !== $this->uri->lang))
         redirect(sub_url((!$this->config->item('lang_url_include')?$user_lang.'/':'').uri_string()), 'refresh');
+    }
+  }
+  
+  protected function add_require_js($config_name, $trigger_params = array())
+  {
+    if (!empty($this->view_data['res_require_js']))
+    {
+      if (!empty($trigger_params))
+      {  
+        $script = '<script type="text/javascript">';
+        foreach($trigger_params as $var=>$value)
+        {
+          if (gettype($value) == 'string') $value = "'$value'";
+          $script.= "var $var = $value;";
+        }
+        $script.= '</script>';
+      }
+      $this->view_data['scripts'][] = array('script'=>$script);
+      $this->view_data['scripts'][] = array('script'=>'<script type="text/javascript" src="'.$this->view_data['res_require_js'].'" data-main="'.$this->view_data['res_js'].'/'.$config_name.'"></script>');
     }
   }
   

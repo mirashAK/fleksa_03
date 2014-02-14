@@ -107,8 +107,8 @@ class Flx_Controller extends CI_Controller
           $script.= "var $var = $value;";
         }
         $script.= '</script>';
+        $this->view_data['scripts'][] = array('script'=>$script);
       }
-      $this->view_data['scripts'][] = array('script'=>$script);
       $this->view_data['scripts'][] = array('script'=>'<script type="text/javascript" src="'.$this->view_data['res_require_js'].'" data-main="'.$this->view_data['res_js'].'/'.$config_name.'"></script>');
     }
   }

@@ -30,17 +30,13 @@
       
       {site_body}
       
-        <!--<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>-->
-        
-        <!--[if lt IE 9]>
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10/jquery.min.js"></script>
-            <script>window.jQuery || document.write('<script src="{res_js}/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script type="text/javascript">var BASEURL = '{base_url}', RESURL = '{res_url}', RESJSURL = '{res_js}', LANG = '{lang}';</script><!--
+        --><!--[if lt IE 9]>
+            <script type="text/javascript">var JQUERY_CDN = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min", JQUERY_LOC = "vendor/jquery-1.10.2.min"</script>
         <![endif]-->
         <!--[if gt IE 8]><!-->
-            <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-            <script>window.jQuery || document.write('<script src="{res_js}/vendor/jquery-2.0.3.min.js"><\/script>')</script>
+            <script type="text/javascript">var JQUERY_CDN = "http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min", JQUERY_LOC = "vendor/jquery-2.0.3.min"</script>
         <!--<![endif]-->
-        
         <?php //Custom scripts, added by add_script() function. Do not touch! ?>
             {scripts}{script}{/scripts}
         <?php //Custom scripts ?>

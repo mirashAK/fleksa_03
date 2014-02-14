@@ -31,6 +31,30 @@ class Canjs_Test extends Test_Controller {
       $this->parse_out('test_canjs_template');
     }
 
+    public function router()
+    {
+        $this->add_require_js('test/rqjs_route.js', array('can_ctrl'=>'router'));
+        $this->view_data['site_title'] = 'Route.js';
+        $this->view_data['site_body'] = $this->parse_in('_common/testing/route_test_view');
+        $this->parse_out('test_template');
+    }
+    
+    public function paginator()
+    {
+        $this->load->model('Static_Pages_mdl', 'sp_mdl');
+        $this->limit = 10;
+        //$this->total = $this->sp_mdl->get_total_spages();
+        //$this->pages = ceil($this->total / $this->limit);
+        
+        $st_pages = $this->sp_mdl->get_static_pages();
+        var_export($st_pages->total_count);
+        
+        $this->add_require_js('test/rqjs_route.js', array('can_ctrl'=>'pages'));
+        $this->view_data['site_title'] = 'Route.js';
+        $this->view_data['site_body'] = $this->parse_in('_common/testing/pages_test_view');
+        $this->parse_out('test_template');
+    }
+    
 }
 
 /* End of file welcome.php */

@@ -44,6 +44,11 @@
         </code>
         <br/>
     </div>
-
+    
+    
+    <section id="okna-master3"></section>
+    <!-- Master 3.0 connection -->
+    <script type="text/javascript" src="http://okna.dev/resources/master3/master.js"></script>
+    
     <p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>
 </div>

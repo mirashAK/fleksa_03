@@ -17,6 +17,7 @@ class Var_Test extends Test_Controller {
       
       $this->view_data['test_arr'] = array ( 'first' => 'Работа с задачами', 'second' => 'в вашей команде', 'third' => 'никогда не была', 'fourth' => 'такой простой');
       
+      $this->add_script('vendor/jquery.min.js');
       $this->add_css('test/standard.css');
       $this->view_data['site_title'] = $this->lang->line('test_page_title');
       $this->view_data['site_body'] = $this->parse_in('_common/testing/var_test_view');

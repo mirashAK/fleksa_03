@@ -21,6 +21,17 @@
       {styles}{style}{/styles}
   <?php //Custom styles ?>
   
+  <script type="text/javascript">var BASEURL = '{base_url}', RESURL = '{res_url}', RESJSURL = '{res_js}', LANG = '{lang}';</script><!--
+  --><!--[if lt IE 9]>
+      <script type="text/javascript">var JQUERY_CDN = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min", JQUERY_LOC = "vendor/jquery-1.10.2.min"</script>
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+      <script type="text/javascript">var JQUERY_CDN = "http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min", JQUERY_LOC = "vendor/jquery-2.0.3.min"</script>
+  <!--<![endif]-->
+  <?php //Custom scripts, added by add_script() function. Do not touch! ?>
+      {scripts}{script}{/scripts}
+  <?php //Custom scripts ?>
+  
   <!--[if lt IE 9]>
       <script src="{res_js}/vendor/html5shiv.js"></script>
   <![endif]-->
@@ -30,15 +41,6 @@
       
       {site_body}
       
-        <script type="text/javascript">var BASEURL = '{base_url}', RESURL = '{res_url}', RESJSURL = '{res_js}', LANG = '{lang}';</script><!--
-        --><!--[if lt IE 9]>
-            <script type="text/javascript">var JQUERY_CDN = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min", JQUERY_LOC = "vendor/jquery-1.10.2.min"</script>
-        <![endif]-->
-        <!--[if gt IE 8]><!-->
-            <script type="text/javascript">var JQUERY_CDN = "http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min", JQUERY_LOC = "vendor/jquery-2.0.3.min"</script>
-        <!--<![endif]-->
-        <?php //Custom scripts, added by add_script() function. Do not touch! ?>
-            {scripts}{script}{/scripts}
-        <?php //Custom scripts ?>
+
     </body>
 </html>

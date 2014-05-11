@@ -43,15 +43,15 @@ class Canjs_Test extends Test_Controller {
     {
         $this->load->model('Static_Pages_mdl', 'sp_mdl');
         $this->limit = 10;
-        //$this->total = $this->sp_mdl->get_total_spages();
-        //$this->pages = ceil($this->total / $this->limit);
-        
+      
         $st_pages = $this->sp_mdl->get_static_pages();
-        var_export($st_pages->total_count);
+        $this->pages = ceil($st_pages->total_count / $this->limit);
+        $this->view_data['st_pages'] = $st_pages->values;
         
         $this->add_require_js('test/rqjs_route.js', array('can_ctrl'=>'pages'));
         $this->view_data['site_title'] = 'Route.js';
-        $this->view_data['site_body'] = $this->parse_in('_common/testing/pages_test_view');
+        $this->view_data['site_body'] = $this->m_parse_in('_common/testing/pages_test_view');
+        $this->view_data['st_pages'] = '';
         $this->parse_out('test_template');
     }
     

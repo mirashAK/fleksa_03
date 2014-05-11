@@ -5,7 +5,15 @@
         <div class="col_4 column"></div>
         <div class="center col_4 column list_holder">
         
-            <section id="routeapp"></section>
+           <table border="1"><tr><th>id</th><th>value</th></tr>
+              {{#st_pages}}
+                <tr><td>{{static_page_id}}</td><td>{{static_page_alias}}</td></tr>
+              {{/st_pages}}
+              </table>
+              
+            <section id="routeapp">
+
+            </section>
                 
         </div>
         <div class="col_4 column"></div>
@@ -15,17 +23,17 @@
 <script type="text/mustache" id="app-template">
           <pages-app>
               <table border="1"><tr><th>id</th><th>value</th></tr>
-              {{#each packs_list}}
+              {{#packs_list}}
                 <tr><td>{{id}}</td><td>{{value}}</td></tr>
-              {{/each}}
+              {{/packs_list}}
               </table>
               <ul>
-              {{#each filter_list}}
+              {{#filter_list}}
                 <li>{{value}}</li>
-              {{/each}}
+              {{/filter_list}}
               </ul>
           </pages-app>
-  </script>
+</script>
 
 <!-- ===================================== START FOOTER ===================================== -->
 <div class="clear"></div>

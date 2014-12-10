@@ -45,7 +45,7 @@ function get_browser_lang()
   }
   // извлечь самый приоритетный
   foreach ($langs as $lang => $val) { break; }
-    if (stristr($lang,"-")) {$tmp = explode("-",$lang); $lang = $tmp[0]; }
+    if (stristr($lang,"-")) { $tmp = explode("-",$lang); $lang = $tmp[0]; }
     
   return $lang;
 }
